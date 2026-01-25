@@ -1,0 +1,54 @@
+########################
+# Java / Maven
+########################
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+########################
+# IntelliJ IDEA
+########################
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+########################
+# Spring Boot
+########################
+application-local.yml
+application-dev.yml
+application-prod.yml
+
+########################
+# Logs
+########################
+logs/
+*.log
+
+########################
+# OS
+########################
+.DS_Store
+Thumbs.db
+
+########################
+# Environment variables
+########################
+.env
+.env.*
+!.env.example
+
+########################
+# Docker
+########################
+# volumes / bind mounts
+docker-data/
+postgres-data/
+**/postgres-data/
+
+# docker temp files
+*.pid
