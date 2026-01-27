@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-users
+      author: wsujczynski
+      preConditions:
+        - dbms:
+            type: postgresql
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: TEXT
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: email
+                  type: TEXT
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password_hash
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: registration_date
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+
+
+
+
+
+
+

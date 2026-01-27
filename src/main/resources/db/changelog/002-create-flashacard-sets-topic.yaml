@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-flashcard-set-topics
+      author: wsujczynski
+      preConditions:
+        - dbms:
+            type: postgresql
+      changes:
+        - createTable:
+            tableName: flashcard_set_topics
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: topic
+                  type: TEXT
+                  constraints:
+                    nullable: false
