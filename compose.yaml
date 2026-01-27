@@ -1,9 +1,34 @@
 services:
   postgres:
-    image: 'postgres:latest'
+    image: postgres:16
+    container_name: studynest-db
+    restart: always
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      POSTGRES_USER: studynest_user
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: studynest
     ports:
-      - '5432'
+      - "5432:5432"
+    volumes:
+      - studynest_db_data:/var/lib/postgresql/data
+    networks:
+      - studynest_net
+
+  backend:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/studynest
+      SPRING_DATASOURCE_USERNAME: studynest_user
+      PRING_DATASOURCE_PASSWORD: mypassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+
+volumes:
+  studynest_db_data:
+
+networks:
+  studynest_net:
