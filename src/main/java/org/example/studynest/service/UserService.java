@@ -1,8 +1,11 @@
 package org.example.studynest.service;
 
+import org.example.studynest.dto.request.CreateUserRequestDTO;
+import org.example.studynest.dto.response.UserResponseDTO;
 import org.example.studynest.entity.User;
 import org.example.studynest.exception.EmailAlreadyExistsException;
 import org.example.studynest.exception.UsernameNotFoundByEmailException;
+import org.example.studynest.mapper.UserMapper;
 import org.example.studynest.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,16 +23,20 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User register(String username, String email, String password) {
-        if (userRepository.existsByEmail(email)) {
-            throw new EmailAlreadyExistsException(email);
+    public UserResponseDTO register(CreateUserRequestDTO createUserRequestDTO) {
+        if (userRepository.existsByEmail(createUserRequestDTO.getEmail())) {
+            throw new EmailAlreadyExistsException(createUserRequestDTO.getEmail());
         }
+        User user = new User();
 
-        User user = new User(username, email, passwordEncoder.encode(password));
-        return userRepository.save(user);
+
+
+        userRepository.save(user);
+
     }
 
-    public User getByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundByEmailException(email));
+    public UserResponseDTO getByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundByEmailException(email));
+        return UserMapper.toDTO(user);
     }
 }
