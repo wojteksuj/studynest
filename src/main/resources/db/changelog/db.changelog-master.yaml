@@ -1,10 +1,10 @@
 databaseChangeLog:
   - include:
-      file: classpath:db/changelog/001-create-users.yaml
+      file: db/changelog/001-create-users.yaml
   - include:
-      file: classpath:db/changelog/002-create-flashcard-set-topics.yaml
+      file: db/changelog/002-create-flashcard-set-topics.yaml
   - include:
-      file: classpath:db/changelog/003-create-flashcard-sets.yaml
+      file: db/changelog/003-create-flashcard-sets.yaml
   - include:
-      file: classpath:db/changelog/004-create-flashcards.yaml
+      file: db/changelog/004-create-flashcards.yaml
 

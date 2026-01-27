@@ -24,8 +24,10 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/studynest
       SPRING_DATASOURCE_USERNAME: studynest_user
-      PRING_DATASOURCE_PASSWORD: mypassword
+      SPRING_DATASOURCE_PASSWORD: mypassword
       SPRING_JPA_HIBERNATE_DDL_AUTO: none
+    networks:
+      - studynest_net
 
 volumes:
   studynest_db_data:
