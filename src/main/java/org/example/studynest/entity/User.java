@@ -32,6 +32,14 @@ public class User {
     protected User() {
     }
 
+    public User(String username, String email, String passwordHash) {
+        this.id = UUID.randomUUID();
+        this.registrationDate = Instant.now();
+        this.username = username;
+        this.email = email;
+        this.passwordHash = passwordHash;
+    }
+
     @PrePersist
     protected void onCreate() {
         if (id == null) {
