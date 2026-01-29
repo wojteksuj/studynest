@@ -4,18 +4,9 @@ import java.time.Instant;
 import java.util.UUID;
 
 public class UserResponseDTO {
-    private UUID id;
     private String username;
     private String email;
     private Instant registrationDate;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
