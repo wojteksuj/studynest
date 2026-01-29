@@ -1,14 +1,14 @@
 package org.example.studynest.controller;
 
 import jakarta.validation.Valid;
-import org.example.studynest.dto.request.CreateUserRequestDTO;
+import org.example.studynest.dto.request.RegisterUserDTO;
 import org.example.studynest.dto.response.UserResponseDTO;
 import org.example.studynest.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/studynest/users")
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
 
@@ -16,7 +16,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/by-email")
+    @GetMapping("/byEmail")
     public UserResponseDTO getUserByEmail(@RequestParam String email) {
         return userService.getByEmail(email);
     }
@@ -24,8 +24,8 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponseDTO createUser(
-            @Valid @RequestBody CreateUserRequestDTO dto
+            @Valid @RequestBody RegisterUserDTO dto
     ) {
-        return userService.create(dto);
+        return userService.register(dto);
     }
 }

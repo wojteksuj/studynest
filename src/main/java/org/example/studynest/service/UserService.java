@@ -1,6 +1,6 @@
 package org.example.studynest.service;
 
-import org.example.studynest.dto.request.CreateUserRequestDTO;
+import org.example.studynest.dto.request.RegisterUserDTO;
 import org.example.studynest.dto.response.UserResponseDTO;
 import org.example.studynest.entity.User;
 import org.example.studynest.exception.EmailAlreadyExistsException;
@@ -23,16 +23,18 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserResponseDTO register(CreateUserRequestDTO createUserRequestDTO) {
-        if (userRepository.existsByEmail(createUserRequestDTO.getEmail())) {
-            throw new EmailAlreadyExistsException(createUserRequestDTO.getEmail());
+    public UserResponseDTO register(RegisterUserDTO registerUserDTO) {
+        if (userRepository.existsByEmail(registerUserDTO.getEmail())) {
+            throw new EmailAlreadyExistsException(registerUserDTO.getEmail());
         }
-        User user = new User();
+        User user = new User(
+                registerUserDTO.getUsername(),
+                registerUserDTO.getEmail(),
+                registerUserDTO.getPassword()
+        );
+        User savedUser = userRepository.save(user);
 
-
-
-        userRepository.save(user);
-
+        return UserMapper.toDTO(savedUser);
     }
 
     public UserResponseDTO getByEmail(String email) {
