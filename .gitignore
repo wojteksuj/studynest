@@ -1,39 +1,38 @@
 ########################
-# Java / Maven
+# Root / OS
 ########################
-target/
-*.class
-*.jar
-*.war
-*.ear
+.DS_Store
+Thumbs.db
 
 ########################
 # IntelliJ IDEA
 ########################
 .idea/
 *.iml
-*.iws
-*.ipr
 out/
 
 ########################
-# Spring Boot
+# Java / Maven (backend)
 ########################
-application-local.yml
-application-dev.yml
-application-prod.yml
+backend/target/
+backend/*.log
+backend/*.class
+backend/*.jar
+backend/*.war
+backend/*.ear
+
+########################
+# Spring Boot profiles
+########################
+backend/src/main/resources/application-local.yml
+backend/src/main/resources/application-dev.yml
+backend/src/main/resources/application-prod.yml
 
 ########################
 # Logs
 ########################
 logs/
 *.log
-
-########################
-# OS
-########################
-.DS_Store
-Thumbs.db
 
 ########################
 # Environment variables
@@ -43,12 +42,32 @@ Thumbs.db
 !.env.example
 
 ########################
-# Docker
+# Docker volumes / data
 ########################
-# volumes / bind mounts
 docker-data/
 postgres-data/
 **/postgres-data/
-
-# docker temp files
 *.pid
+
+########################
+# Frontend (React / Vite)
+########################
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.vite/
+frontend/*.local
+
+########################
+# Frontend logs
+########################
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+########################
+# VSCode (optional)
+########################
+.vscode/
