@@ -21,11 +21,5 @@ public class UserController {
         return userService.getByEmail(email);
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserResponseDTO createUser(
-            @Valid @RequestBody RegisterUserDTO dto
-    ) {
-        return userService.register(dto);
-    }
+
 }
