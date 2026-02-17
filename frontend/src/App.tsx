@@ -1,20 +1,24 @@
-import { useEffect, useState } from "react";
-import { api } from "./api/axios";
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "./features/auth/LoginPage";
+import DashboardPage from "./pages/DashboardPage";
+import ProtectedRoute from "./router/ProtectedRoute";
+import RegisterPage from "./features/auth/RegisterPage";
 
 function App() {
-    const [data, setData] = useState("");
-
-    useEffect(() => {
-        api.get("/users")
-            .then(res => setData(JSON.stringify(res.data)))
-            .catch(err => console.error(err));
-    }, []);
-
     return (
-        <div>
-            <h1>StudyNest</h1>
-            <pre>{data}</pre>
-        </div>
+        <Routes>
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route
+                path="/dashboard"
+                element={
+                    <ProtectedRoute>
+                        <DashboardPage />
+                    </ProtectedRoute>
+                }
+            />
+        </Routes>
     );
 }
 
