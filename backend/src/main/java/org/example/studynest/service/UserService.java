@@ -30,7 +30,7 @@ public class UserService {
         User user = new User(
                 registerUserDTO.getUsername(),
                 registerUserDTO.getEmail(),
-                registerUserDTO.getPassword()
+                passwordEncoder.encode(registerUserDTO.getPassword())
         );
         User savedUser = userRepository.save(user);
 
