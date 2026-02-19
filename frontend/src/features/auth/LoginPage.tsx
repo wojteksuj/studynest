@@ -11,6 +11,10 @@ export default function LoginPage() {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
+    const isFormValid =
+        email.trim() !== "" &&
+        password.trim() !== "";
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
@@ -54,7 +58,7 @@ export default function LoginPage() {
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} noValidate className="space-y-6">
 
                     <div>
                         <label className="block text-sm text-slate-300 mb-2">
@@ -87,8 +91,12 @@ export default function LoginPage() {
                     {/* Primary Button */}
                     <button
                         type="submit"
-                        disabled={loading}
-                        className="w-full bg-[#EE7F87] hover:bg-[#E89A95] text-slate-900 font-semibold py-3 rounded-lg transition disabled:opacity-60 disabled:cursor-not-allowed"
+                        disabled={loading || !isFormValid}
+                        className={`w-full font-semibold py-3 rounded-lg transition
+                        ${loading || !isFormValid
+                            ? "bg-slate-600 text-slate-400 cursor-not-allowed"
+                            : "bg-[#EE7F87] hover:bg-[#E89A95] text-slate-900"
+                        }`}
                     >
                         {loading ? "Signing in..." : "Sign in"}
                     </button>
