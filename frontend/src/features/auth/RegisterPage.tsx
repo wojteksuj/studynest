@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import backgroundImage from "../../assets/bird-bg.png";
 import axios from "../../api/axios";
-
 
 export default function RegisterPage() {
     const navigate = useNavigate();
@@ -12,15 +10,22 @@ export default function RegisterPage() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const [error, setError] = useState<string | null>(null);
+    const [fieldErrors, setFieldErrors] = useState<{
+        username?: string;
+        email?: string;
+        password?: string;
+    }>({});
+
+    const [generalError, setGeneralError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(null);
+        setFieldErrors({});
+        setGeneralError(null);
 
         if (password !== confirmPassword) {
-            setError("Passwords do not match");
+            setFieldErrors({ password: "Passwords do not match" });
             return;
         }
 
@@ -35,94 +40,128 @@ export default function RegisterPage() {
 
             navigate("/login");
         } catch (err: any) {
-            setError(
-                err?.response?.data?.message || "Registration failed"
-            );
+            if (err.response?.status === 409) {
+                const message = err.response?.data?.message?.toLowerCase() || "";
+
+                if (message.includes("email")) {
+                    setFieldErrors({ email: "This email is already registered" });
+                } else if (message.includes("username")) {
+                    setFieldErrors({ username: "This username is already taken" });
+                } else {
+                    setGeneralError("User already exists");
+                }
+            } else {
+                setGeneralError(
+                    err?.response?.data?.message || "Registration failed"
+                );
+            }
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div
-            className="min-h-screen flex items-center justify-center relative"
-            style={{
-                backgroundImage: `url(${backgroundImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-            }}
-        >
-            <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" />
+        <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
 
-            <div className="relative z-10 w-full max-w-md px-10 py-12 bg-[#3b2a1f] rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-[#6b4f3a]">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#8FC3B1] via-[#E6BC9C] to-[#EE7F87]" />
+            <div className="absolute inset-0 bg-slate-900/70 backdrop-blur-2xl" />
+
+            <div className="relative z-10 w-full max-w-md px-10 py-12 bg-slate-800/90 rounded-2xl shadow-2xl border border-slate-700">
 
                 <div className="text-center mb-10">
                     <h1 className="text-3xl font-semibold text-white mb-2 tracking-wide">
                         Create account
                     </h1>
-                    <p className="text-[#e0cfc2] text-sm">
+                    <p className="text-slate-400 text-sm">
                         Join your digital study nest
                     </p>
                 </div>
 
-                {error && (
+                {generalError && (
                     <div className="mb-5 text-sm text-red-300 bg-red-900/40 border border-red-700 px-3 py-2 rounded-lg">
-                        {error}
+                        {generalError}
                     </div>
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
 
                     <div>
-                        <label className="block text-sm text-[#e0cfc2] mb-2">
+                        <label className="block text-sm text-slate-300 mb-2">
                             Username
                         </label>
                         <input
                             type="text"
                             required
-                            className="w-full bg-[#4c372a] border border-[#6b4f3a] rounded-lg px-4 py-3 text-white placeholder-[#c9b5a8] focus:outline-none focus:ring-2 focus:ring-[#d6b08c] transition"
+                            className={`w-full bg-slate-900 border rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 transition
+                                ${fieldErrors.username
+                                ? "border-red-500 focus:ring-red-500"
+                                : "border-slate-700 focus:ring-[#8FC3B1]"
+                            }`}
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             placeholder="your_username"
                         />
+                        {fieldErrors.username && (
+                            <p className="text-red-400 text-xs mt-2">
+                                {fieldErrors.username}
+                            </p>
+                        )}
                     </div>
 
                     <div>
-                        <label className="block text-sm text-[#e0cfc2] mb-2">
+                        <label className="block text-sm text-slate-300 mb-2">
                             Email
                         </label>
                         <input
                             type="email"
                             required
-                            className="w-full bg-[#4c372a] border border-[#6b4f3a] rounded-lg px-4 py-3 text-white placeholder-[#c9b5a8] focus:outline-none focus:ring-2 focus:ring-[#d6b08c] transition"
+                            className={`w-full bg-slate-900 border rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 transition
+                                ${fieldErrors.email
+                                ? "border-red-500 focus:ring-red-500"
+                                : "border-slate-700 focus:ring-[#8FC3B1]"
+                            }`}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="you@example.com"
                         />
+                        {fieldErrors.email && (
+                            <p className="text-red-400 text-xs mt-2">
+                                {fieldErrors.email}
+                            </p>
+                        )}
                     </div>
 
                     <div>
-                        <label className="block text-sm text-[#e0cfc2] mb-2">
+                        <label className="block text-sm text-slate-300 mb-2">
                             Password
                         </label>
                         <input
                             type="password"
                             required
-                            className="w-full bg-[#4c372a] border border-[#6b4f3a] rounded-lg px-4 py-3 text-white placeholder-[#c9b5a8] focus:outline-none focus:ring-2 focus:ring-[#d6b08c] transition"
+                            className={`w-full bg-slate-900 border rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 transition
+                                ${fieldErrors.password
+                                ? "border-red-500 focus:ring-red-500"
+                                : "border-slate-700 focus:ring-[#8FC3B1]"
+                            }`}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="••••••••"
                         />
+                        {fieldErrors.password && (
+                            <p className="text-red-400 text-xs mt-2">
+                                {fieldErrors.password}
+                            </p>
+                        )}
                     </div>
 
                     <div>
-                        <label className="block text-sm text-[#e0cfc2] mb-2">
+                        <label className="block text-sm text-slate-300 mb-2">
                             Confirm password
                         </label>
                         <input
                             type="password"
                             required
-                            className="w-full bg-[#4c372a] border border-[#6b4f3a] rounded-lg px-4 py-3 text-white placeholder-[#c9b5a8] focus:outline-none focus:ring-2 focus:ring-[#d6b08c] transition"
+                            className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#8FC3B1] transition"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             placeholder="••••••••"
@@ -132,7 +171,7 @@ export default function RegisterPage() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-[#d6b08c] hover:bg-[#e2c3a4] text-[#2a1b12] font-semibold py-3 rounded-lg transition disabled:opacity-60 disabled:cursor-not-allowed"
+                        className="w-full bg-[#EE7F87] hover:bg-[#E89A95] text-slate-900 font-semibold py-3 rounded-lg transition disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                         {loading ? "Creating account..." : "Create account"}
                     </button>
@@ -140,7 +179,7 @@ export default function RegisterPage() {
                     <button
                         type="button"
                         onClick={() => navigate("/login")}
-                        className="w-full border border-[#d6b08c] text-white hover:bg-[#d6b08c]/20 py-3 rounded-lg transition"
+                        className="w-full border border-slate-600 text-slate-300 hover:bg-slate-700 py-3 rounded-lg transition"
                     >
                         Back to login
                     </button>
