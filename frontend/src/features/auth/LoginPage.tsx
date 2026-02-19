@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
+import logo from "../../assets/sn-logo.png";
+
 
 export default function LoginPage() {
     const { login } = useAuth();
@@ -46,12 +48,12 @@ export default function LoginPage() {
             <div className="relative z-10 w-full max-w-md px-10 py-12 bg-slate-800/90 rounded-2xl shadow-2xl border border-slate-700">
 
                 <div className="text-center mb-10">
-                    <h1 className="text-3xl font-semibold text-white mb-2 tracking-wide">
-                        StudyNest
-                    </h1>
-                    <p className="text-slate-400 text-sm">
-                        A calm space for focused learning
-                    </p>
+                    <img
+                        src={logo}
+                        alt="StudyNest"
+                        className="mx-auto mb-6 h-16 object-contain drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]"
+                    />
+
                 </div>
 
                 {error && (
