@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import backgroundImage from "../../assets/bird-bg.png";
 
 export default function LoginPage() {
     const { login } = useAuth();
@@ -20,42 +19,31 @@ export default function LoginPage() {
         try {
             await login({ email, password });
             navigate("/dashboard");
-        } catch {
+        } catch (err) {
+            console.log("LOGIN ERROR", err);
             setError("Invalid credentials");
         } finally {
             setLoading(false);
         }
-        try {
-            await login({ email, password });
-            console.log("LOGIN SUCCESS");
-            navigate("/dashboard");
-        } catch (err) {
-            console.log("LOGIN ERROR", err);
-            setError("Invalid credentials");
-        }
-
     };
 
     return (
-        <div
-            className="min-h-screen flex items-center justify-center relative"
-            style={{
-                backgroundImage: `url(${backgroundImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-            }}
-        >
-            {/* Strong neutral overlay for contrast */}
-            <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" />
+        <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+
+            {/* Background gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#8FC3B1] via-[#E6BC9C] to-[#EE7F87]" />
+
+            {/* Dark overlay for contrast */}
+            <div className="absolute inset-0 bg-slate-900/70 backdrop-blur-2xl" />
 
             {/* Card */}
-            <div className="relative z-10 w-full max-w-md px-10 py-12 bg-[#3b2a1f] rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-[#6b4f3a]">
+            <div className="relative z-10 w-full max-w-md px-10 py-12 bg-slate-800/90 rounded-2xl shadow-2xl border border-slate-700">
 
                 <div className="text-center mb-10">
                     <h1 className="text-3xl font-semibold text-white mb-2 tracking-wide">
                         StudyNest
                     </h1>
-                    <p className="text-[#e0cfc2] text-sm">
+                    <p className="text-slate-400 text-sm">
                         A calm space for focused learning
                     </p>
                 </div>
@@ -69,13 +57,13 @@ export default function LoginPage() {
                 <form onSubmit={handleSubmit} className="space-y-6">
 
                     <div>
-                        <label className="block text-sm text-[#e0cfc2] mb-2">
+                        <label className="block text-sm text-slate-300 mb-2">
                             Email
                         </label>
                         <input
                             type="email"
                             required
-                            className="w-full bg-[#4c372a] border border-[#6b4f3a] rounded-lg px-4 py-3 text-white placeholder-[#c9b5a8] focus:outline-none focus:ring-2 focus:ring-[#d6b08c] focus:border-transparent transition"
+                            className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#8FC3B1] focus:border-transparent transition"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="you@example.com"
@@ -83,40 +71,40 @@ export default function LoginPage() {
                     </div>
 
                     <div>
-                        <label className="block text-sm text-[#e0cfc2] mb-2">
+                        <label className="block text-sm text-slate-300 mb-2">
                             Password
                         </label>
                         <input
                             type="password"
                             required
-                            className="w-full bg-[#4c372a] border border-[#6b4f3a] rounded-lg px-4 py-3 text-white placeholder-[#c9b5a8] focus:outline-none focus:ring-2 focus:ring-[#d6b08c] focus:border-transparent transition"
+                            className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#8FC3B1] focus:border-transparent transition"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="••••••••"
                         />
                     </div>
 
-                    {/* Primary */}
+                    {/* Primary Button */}
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-[#d6b08c] hover:bg-[#e2c3a4] text-[#2a1b12] font-semibold py-3 rounded-lg transition disabled:opacity-60 disabled:cursor-not-allowed"
+                        className="w-full bg-[#EE7F87] hover:bg-[#E89A95] text-slate-900 font-semibold py-3 rounded-lg transition disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                         {loading ? "Signing in..." : "Sign in"}
                     </button>
 
-                    {/* Secondary */}
+                    {/* Secondary Button */}
                     <button
                         type="button"
                         onClick={() => navigate("/register")}
-                        className="w-full border border-[#d6b08c] text-white hover:bg-[#d6b08c]/20 py-3 rounded-lg transition"
+                        className="w-full border border-slate-600 text-slate-300 hover:bg-slate-700 py-3 rounded-lg transition"
                     >
                         Register
                     </button>
 
                 </form>
 
-                <p className="text-center text-xs text-[#bfae9f] mt-10">
+                <p className="text-center text-xs text-slate-500 mt-10">
                     © {new Date().getFullYear()} StudyNest
                 </p>
 
