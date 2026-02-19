@@ -3,7 +3,7 @@ package org.example.studynest.service;
 import org.example.studynest.dto.request.RegisterUserDTO;
 import org.example.studynest.dto.response.UserResponseDTO;
 import org.example.studynest.entity.User;
-import org.example.studynest.exception.EmailAlreadyExistsException;
+import org.example.studynest.exception.DuplicateFieldsException;
 import org.example.studynest.exception.UsernameNotFoundByEmailException;
 import org.example.studynest.mapper.UserMapper;
 import org.example.studynest.repository.UserRepository;
@@ -25,8 +25,13 @@ public class UserService {
 
     public UserResponseDTO register(RegisterUserDTO registerUserDTO) {
         if (userRepository.existsByEmail(registerUserDTO.getEmail())) {
-            throw new EmailAlreadyExistsException(registerUserDTO.getEmail());
+            throw new DuplicateFieldsException("email", "Email already exists");
         }
+
+        if (userRepository.existsByUsername(registerUserDTO.getUsername())) {
+            throw new DuplicateFieldsException("username", "Username already exists");
+        }
+
         User user = new User(
                 registerUserDTO.getUsername(),
                 registerUserDTO.getEmail(),
