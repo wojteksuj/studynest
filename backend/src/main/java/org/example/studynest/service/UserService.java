@@ -24,12 +24,13 @@ public class UserService {
     }
 
     public UserResponseDTO register(RegisterUserDTO registerUserDTO) {
-        if (userRepository.existsByEmail(registerUserDTO.getEmail())) {
-            throw new DuplicateFieldsException("email", "Email already exists");
-        }
 
         if (userRepository.existsByUsername(registerUserDTO.getUsername())) {
             throw new DuplicateFieldsException("username", "Username already exists");
+        }
+
+        if (userRepository.existsByEmail(registerUserDTO.getEmail())) {
+            throw new DuplicateFieldsException("email", "Email already exists");
         }
 
         User user = new User(

@@ -2,6 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 
+type FieldErrors = {
+    username?: string;
+    email?: string;
+    password?: string;
+};
+
 export default function RegisterPage() {
     const navigate = useNavigate();
 
@@ -10,12 +16,7 @@ export default function RegisterPage() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const [fieldErrors, setFieldErrors] = useState<{
-        username?: string;
-        email?: string;
-        password?: string;
-    }>({});
-
+    const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
     const [generalError, setGeneralError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
@@ -40,20 +41,30 @@ export default function RegisterPage() {
 
             navigate("/login");
         } catch (err: any) {
-            if (err.response?.status === 409) {
-                const message = err.response?.data?.message?.toLowerCase() || "";
+            const status = err.response?.status;
+            const data = err.response?.data;
 
-                if (message.includes("email")) {
-                    setFieldErrors({ email: "This email is already registered" });
-                } else if (message.includes("username")) {
-                    setFieldErrors({ username: "This username is already taken" });
-                } else {
-                    setGeneralError("User already exists");
-                }
-            } else {
-                setGeneralError(
-                    err?.response?.data?.message || "Registration failed"
-                );
+            // 🔹 Walidacja Bean Validation (400)
+            if (status === 400 && data?.errors) {
+                const errors: FieldErrors = {};
+
+                data.errors.forEach((error: any) => {
+                    errors[error.field as keyof FieldErrors] = error.message;
+                });
+
+                setFieldErrors(errors);
+            }
+
+            // 🔹 Duplikat (409)
+            else if (status === 409 && data?.field) {
+                setFieldErrors({
+                    [data.field]: data.message,
+                });
+            }
+
+            // 🔹 Inne błędy
+            else {
+                setGeneralError(data?.message || "Registration failed");
             }
         } finally {
             setLoading(false);
@@ -85,6 +96,7 @@ export default function RegisterPage() {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
 
+                    {/* Username */}
                     <div>
                         <label className="block text-sm text-slate-300 mb-2">
                             Username
@@ -108,6 +120,7 @@ export default function RegisterPage() {
                         )}
                     </div>
 
+                    {/* Email */}
                     <div>
                         <label className="block text-sm text-slate-300 mb-2">
                             Email
@@ -131,6 +144,7 @@ export default function RegisterPage() {
                         )}
                     </div>
 
+                    {/* Password */}
                     <div>
                         <label className="block text-sm text-slate-300 mb-2">
                             Password
@@ -154,6 +168,7 @@ export default function RegisterPage() {
                         )}
                     </div>
 
+                    {/* Confirm password */}
                     <div>
                         <label className="block text-sm text-slate-300 mb-2">
                             Confirm password
