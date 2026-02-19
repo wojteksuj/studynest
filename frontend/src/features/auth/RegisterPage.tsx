@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import axios from "../../api/axios";
 
 type FieldErrors = {
@@ -20,13 +20,19 @@ export default function RegisterPage() {
     const [generalError, setGeneralError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
+    const isFormValid =
+        username.trim() !== "" &&
+        email.trim() !== "" &&
+        password.trim() !== "" &&
+        confirmPassword.trim() !== "";
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setFieldErrors({});
         setGeneralError(null);
 
         if (password !== confirmPassword) {
-            setFieldErrors({ password: "Passwords do not match" });
+            setFieldErrors({password: "Passwords do not match"});
             return;
         }
 
@@ -44,7 +50,6 @@ export default function RegisterPage() {
             const status = err.response?.status;
             const data = err.response?.data;
 
-            // 🔹 Walidacja Bean Validation (400)
             if (status === 400 && data?.errors) {
                 const errors: FieldErrors = {};
 
@@ -53,17 +58,11 @@ export default function RegisterPage() {
                 });
 
                 setFieldErrors(errors);
-            }
-
-            // 🔹 Duplikat (409)
-            else if (status === 409 && data?.field) {
+            } else if (status === 409 && data?.field) {
                 setFieldErrors({
                     [data.field]: data.message,
                 });
-            }
-
-            // 🔹 Inne błędy
-            else {
+            } else {
                 setGeneralError(data?.message || "Registration failed");
             }
         } finally {
@@ -74,10 +73,11 @@ export default function RegisterPage() {
     return (
         <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
 
-            <div className="absolute inset-0 bg-gradient-to-br from-[#8FC3B1] via-[#E6BC9C] to-[#EE7F87]" />
-            <div className="absolute inset-0 bg-slate-900/70 backdrop-blur-2xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#8FC3B1] via-[#E6BC9C] to-[#EE7F87]"/>
+            <div className="absolute inset-0 bg-slate-900/70 backdrop-blur-2xl"/>
 
-            <div className="relative z-10 w-full max-w-md px-10 py-12 bg-slate-800/90 rounded-2xl shadow-2xl border border-slate-700">
+            <div
+                className="relative z-10 w-full max-w-md px-10 py-12 bg-slate-800/90 rounded-2xl shadow-2xl border border-slate-700">
 
                 <div className="text-center mb-10">
                     <h1 className="text-3xl font-semibold text-white mb-2 tracking-wide">
@@ -185,11 +185,16 @@ export default function RegisterPage() {
 
                     <button
                         type="submit"
-                        disabled={loading}
-                        className="w-full bg-[#EE7F87] hover:bg-[#E89A95] text-slate-900 font-semibold py-3 rounded-lg transition disabled:opacity-60 disabled:cursor-not-allowed"
+                        disabled={loading || !isFormValid}
+                        className={`w-full font-semibold py-3 rounded-lg transition
+                        ${loading || !isFormValid
+                            ? "bg-slate-600 text-slate-400 cursor-not-allowed"
+                            : "bg-[#EE7F87] hover:bg-[#E89A95] text-slate-900"
+                        }`}
                     >
                         {loading ? "Creating account..." : "Create account"}
                     </button>
+
 
                     <button
                         type="button"
