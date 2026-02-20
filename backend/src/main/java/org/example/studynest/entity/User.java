@@ -69,5 +69,4 @@ public class User {
     public Instant getRegistrationDate() {
         return registrationDate;
     }
-
 }

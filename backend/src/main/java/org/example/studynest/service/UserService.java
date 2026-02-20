@@ -1,5 +1,6 @@
 package org.example.studynest.service;
 
+import org.example.studynest.config.PasswordEncoderConfig;
 import org.example.studynest.dto.request.RegisterUserDTO;
 import org.example.studynest.dto.response.UserResponseDTO;
 import org.example.studynest.entity.User;
@@ -7,7 +8,6 @@ import org.example.studynest.exception.DuplicateFieldsException;
 import org.example.studynest.exception.UsernameNotFoundByEmailException;
 import org.example.studynest.mapper.UserMapper;
 import org.example.studynest.repository.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,11 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoderConfig passwordEncoderConfig;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoderConfig passwordEncoder) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.passwordEncoderConfig = passwordEncoder;
     }
 
     public UserResponseDTO register(RegisterUserDTO registerUserDTO) {
@@ -36,7 +36,7 @@ public class UserService {
         User user = new User(
                 registerUserDTO.getUsername(),
                 registerUserDTO.getEmail(),
-                passwordEncoder.encode(registerUserDTO.getPassword())
+                passwordEncoderConfig.passwordEncoder().encode(registerUserDTO.getPassword())
         );
         User savedUser = userRepository.save(user);
 
