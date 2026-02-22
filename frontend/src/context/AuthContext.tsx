@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
-        const storedToken = localStorage.getItem("token");
+        const storedToken = localStorage.getItem("accessToken");
         if (storedToken) {
             setToken(storedToken);
         }
@@ -43,13 +43,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             throw new Error("Access token not found in response");
         }
 
-        localStorage.setItem("token", jwt);
+        localStorage.setItem("accessToken", jwt);
         setToken(jwt);
     };
 
 
     const logout = () => {
-        localStorage.removeItem("token");
+        localStorage.removeItem("accessToken");
         setToken(null);
     };
 
