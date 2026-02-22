@@ -14,22 +14,30 @@ type LoginRequest = {
 
 type AuthContextType = {
     token: string | null;
+    username: string | null;
     isAuthenticated: boolean;
     login: (data: LoginRequest) => Promise<void>;
     logout: () => void;
 };
 
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [token, setToken] = useState<string | null>(null);
+    const [username, setUsername] = useState<string | null>(null);
+
 
     useEffect(() => {
-        const storedToken = localStorage.getItem("accessToken");
+        const storedToken = localStorage.getItem("token");
         if (storedToken) {
             setToken(storedToken);
+
+            const payload = parseJwt(storedToken);
+            setUsername(payload?.username ?? null);
         }
     }, []);
+
 
     const login = async ({ email, password }: LoginRequest) => {
         const response = await axios.post("/auth/login", {
@@ -45,6 +53,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         localStorage.setItem("accessToken", jwt);
         setToken(jwt);
+
+        const payload = parseJwt(jwt);
+        setUsername(payload?.username ?? null);
     };
 
 
@@ -53,10 +64,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setToken(null);
     };
 
+    const parseJwt = (token: string) => {
+        try {
+            const base64Payload = token.split(".")[1];
+            const decodedPayload = atob(base64Payload);
+            return JSON.parse(decodedPayload);
+        } catch {
+            return null;
+        }
+    };
+
     return (
         <AuthContext.Provider
             value={{
                 token,
+                username,
                 isAuthenticated: !!token,
                 login,
                 logout,
