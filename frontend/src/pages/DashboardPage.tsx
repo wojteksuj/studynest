@@ -46,33 +46,28 @@ export default function DashboardPage() {
             <div className="relative z-10 min-h-screen flex flex-col">
 
                 <div className="h-16 bg-slate-800/90 border-b border-slate-700 backdrop-blur-xl">
-
                     <div className="max-w-7xl mx-auto w-full px-12 h-full flex items-center justify-between">
 
-                        <div className="flex items-center gap-3">
-                            <div className="h-8 w-8 rounded-full bg-[#8FC3B1] flex items-center justify-center text-slate-900 font-semibold text-sm">
+                        <div className="flex items-center gap-4">
+                            <div className="h-10 w-10 rounded-full bg-[#8FC3B1] flex items-center justify-center text-slate-900 font-semibold text-base">
                                 {username?.charAt(0).toUpperCase()}
                             </div>
 
-                            <div className="flex flex-col leading-tight">
-                                <span className="text-xs text-slate-400">
-                                    Welcome back
-                                </span>
-                                <span className="text-sm font-semibold text-slate-200">
-                                    {username}
-                                </span>
-                            </div>
+                            <span className="text-slate-200 font-semibold text-base">
+                {username}
+            </span>
                         </div>
 
                         <button
                             onClick={handleLogout}
-                            className="bg-[#EE7F87] hover:bg-[#E89A95] text-slate-900 font-semibold px-5 py-2 rounded-xl transition shadow-md hover:shadow-lg"
+                            className="bg-[#EE7F87] hover:bg-[#E89A95] text-slate-900 font-semibold text-base px-6 py-2 rounded-xl transition shadow-md hover:shadow-lg"
                         >
                             Logout
                         </button>
 
                     </div>
                 </div>
+
 
                 <div className="flex-1">
 
