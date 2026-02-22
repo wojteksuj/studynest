@@ -7,7 +7,6 @@ import org.example.studynest.dto.response.UserResponseDTO;
 import org.example.studynest.entity.User;
 import org.example.studynest.exception.DuplicateFieldsException;
 import org.example.studynest.exception.UsernameNotFoundByEmailException;
-import org.example.studynest.mapper.UserInfoMapper;
 import org.example.studynest.mapper.UserMapper;
 import org.example.studynest.repository.UserRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,16 +44,16 @@ public class UserService {
         );
         User savedUser = userRepository.save(user);
 
-        return UserMapper.toDTO(savedUser);
+        return UserMapper.toUserResponseDTO(savedUser);
     }
 
     public UserResponseDTO getByEmail(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundByEmailException(email));
-        return UserMapper.toDTO(user);
+        return UserMapper.toUserResponseDTO(user);
     }
 
     public UserInfoResponseDTO getUserInfo(UUID userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException(userId.toString()));
-        return UserInfoMapper.toDTO(user);
+        return UserMapper.toUserInfoResponseDTO(user);
     }
 }
