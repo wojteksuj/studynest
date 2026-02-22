@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/dashboard/flashcard-set")
+@RequestMapping("/flashcard-sets")
 public class FlashcardSetController {
     private final FlashcardSetService flashcardSetService;
 
