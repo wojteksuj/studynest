@@ -20,7 +20,7 @@ export default function DashboardPage() {
     }, []);
 
     const fetchSets = async () => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("accessToken");
 
         const response = await fetch("http://localhost:8080/studynest/flashcard-sets", {
             headers: {
@@ -70,36 +70,46 @@ export default function DashboardPage() {
 
 
                 <div className="flex-1">
+                    <div className="max-w-7xl mx-auto w-full px-12 py-16 flex gap-20">
 
-                    <div className="max-w-7xl mx-auto w-full px-12 py-12 flex gap-16">
+                        <div className="w-64 flex flex-col gap-6">
 
-                        <div className="w-80 bg-slate-800/90 border border-slate-700 rounded-2xl shadow-2xl p-8">
+                            <button className="bg-[#8FC3B1] hover:opacity-90 text-slate-900 font-semibold px-6 py-3 rounded-xl transition shadow-md">
+                                Add new set
+                            </button>
 
-                            <h2 className="text-lg font-semibold text-white mb-8">
-                                Your sets
-                            </h2>
+                            <button className="bg-slate-700 hover:bg-slate-600 text-slate-200 font-semibold px-6 py-3 rounded-xl transition shadow-md">
+                                Add new topic
+                            </button>
 
-                            <div className="space-y-3">
-                                {sets.map(set => (
-                                    <button
-                                        key={set.id}
-                                        onClick={() => setSelectedSetId(set.id)}
-                                        className={`w-full text-left px-4 py-3 rounded-xl transition
-                                            ${selectedSetId === set.id
-                                            ? "bg-[#8FC3B1] text-slate-900"
-                                            : "bg-slate-900/60 text-slate-300 hover:bg-slate-700"
-                                        }`}
-                                    >
-                                        {set.title}
-                                    </button>
-                                ))}
-                            </div>
                         </div>
 
-                        <div className="flex-1 flex items-center justify-center text-slate-400 text-sm">
-                            {selectedSetId
-                                ? `Selected set ID: ${selectedSetId}`
-                                : "Select a set to start learning"}
+                        <div className="flex-1 flex flex-col items-center">
+
+                            <h2 className="text-xl font-semibold text-white mb-8">
+                                Your sets:
+                            </h2>
+
+                            <div className="w-full max-w-2xl bg-slate-800/90 border border-slate-700 rounded-3xl shadow-2xl p-10">
+
+                                <div className="space-y-6">
+                                    {sets.map(set => (
+                                        <button
+                                            key={set.id}
+                                            onClick={() => setSelectedSetId(set.id)}
+                                            className={`w-full text-left text-lg px-4 py-3 rounded-xl transition
+                                ${selectedSetId === set.id
+                                                ? "bg-[#8FC3B1] text-slate-900"
+                                                : "text-slate-200 hover:bg-slate-700"
+                                            }`}
+                                        >
+                                            {set.title}
+                                        </button>
+                                    ))}
+                                </div>
+
+                            </div>
+
                         </div>
 
                     </div>
