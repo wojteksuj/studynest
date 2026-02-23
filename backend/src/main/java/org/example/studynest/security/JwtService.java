@@ -15,12 +15,9 @@ public class JwtService {
     private final String SECRET = "verySecretKeyVerySecretKeyVerySecretKey";
 
     public String generateToken(String email, String username) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("username", username);
-
         return Jwts.builder()
                 .setSubject(email)
-                .setClaims(claims)
+                .claim("username", username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
                 .signWith(Keys.hmacShaKeyFor(SECRET.getBytes()), SignatureAlgorithm.HS256)
@@ -29,7 +26,7 @@ public class JwtService {
 
     public String extractEmail(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(SECRET.getBytes())
+                .setSigningKey(Keys.hmacShaKeyFor(SECRET.getBytes()))
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
