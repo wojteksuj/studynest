@@ -38,7 +38,7 @@ public class FlashcardSet {
     @JoinColumn(name="flashcard_set_topic_id", nullable = false)
     private FlashcardSetTopic flashcardSetTopic;
 
-    protected FlashcardSet() {}
+    public FlashcardSet() {}
 
     @PrePersist
     protected void onCreate() {
