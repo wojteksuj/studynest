@@ -27,6 +27,8 @@ public class FlashcardSetController {
     @PostMapping
     public ResponseEntity<FlashcardSetDTO> addFlashcardSet(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody CreateFlashcardSetDTO flashcardSetDTO) {
             FlashcardSetDTO newFlashcard = flashcardSetService.createFlashcardSet(flashcardSetDTO, userDetails.getId());
-            return new ResponseEntity<>(newFlashcard, HttpStatus.CREATED);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(newFlashcard);
     }
 }
