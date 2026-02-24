@@ -7,6 +7,7 @@ import org.example.studynest.dto.response.UserResponseDTO;
 import org.example.studynest.security.JwtService;
 import org.example.studynest.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +30,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserResponseDTO createUser(
+    public ResponseEntity<UserResponseDTO> createUser(
             @Valid @RequestBody RegisterUserDTO dto
     ) {
-        return userService.register(dto);
+        return new ResponseEntity<>(userService.register(dto), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")

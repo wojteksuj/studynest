@@ -10,4 +10,4 @@ spring:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
 server:
   servlet:
-    context-path: /studynest
+    context-path: /api

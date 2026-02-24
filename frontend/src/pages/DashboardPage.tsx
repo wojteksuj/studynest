@@ -22,7 +22,7 @@ export default function DashboardPage() {
     const fetchSets = async () => {
         const token = localStorage.getItem("accessToken");
 
-        const response = await fetch("http://localhost:8080/studynest/flashcard-sets", {
+        const response = await fetch("http://localhost:8080/api/flashcard-sets", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
