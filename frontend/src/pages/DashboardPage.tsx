@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
-import {useAuth} from "../context/AuthContext";
 import {useNavigate} from "react-router-dom";
+import axios from "../api/axios";
+import TopBar from "../components/TopBar";
 
 type FlashcardSet = {
     id: string;
@@ -20,11 +21,10 @@ type CreateSetRequest = {
 
 export default function DashboardPage() {
 
-    const {logout, username} = useAuth();
     const navigate = useNavigate();
 
     const [sets, setSets] = useState<FlashcardSet[]>([]);
-    const [selectedSetId, setSelectedSetId] = useState<string | null>(null);
+    const [selectedSetId] = useState<string | null>(null);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [topics, setTopics] = useState<Topic[]>([]);
@@ -33,25 +33,20 @@ export default function DashboardPage() {
     const [description, setDescription] = useState("");
     const [selectedTopicId, setSelectedTopicId] = useState("");
 
+    const fetchSets = async () => {
+        try {
+            const response = await axios.get("/flashcard-sets");
+            setSets(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
         fetchSets();
     }, []);
 
-    const fetchSets = async () => {
-        const token = localStorage.getItem("accessToken");
-
-        const response = await fetch("http://localhost:8080/api/flashcard-sets", {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-
-        const data = await response.json();
-        setSets(data);
-    };
-
     const handleLogout = () => {
-        logout();
         navigate("/");
     };
 
@@ -105,31 +100,10 @@ export default function DashboardPage() {
 
             <div className="relative z-10 min-h-screen flex flex-col">
 
-                <div className="h-16 bg-slate-800/90 border-b border-slate-700 backdrop-blur-xl">
-                    <div className="max-w-7xl mx-auto w-full px-12 h-full flex items-center justify-between">
-
-                        <div className="flex items-center gap-4">
-                            <div
-                                className="h-10 w-10 rounded-full bg-[#8FC3B1] flex items-center justify-center text-slate-900 font-semibold text-base">
-                                {username?.charAt(0).toUpperCase()}
-                            </div>
-
-                            <span className="text-slate-200 font-semibold text-base">
-                {username}
-            </span>
-                        </div>
-
-                        <button
-                            onClick={handleLogout}
-                            className="bg-[#EE7F87] hover:bg-[#E89A95] text-slate-900 font-semibold text-base px-6 py-2 rounded-xl transition shadow-md hover:shadow-lg"
-                        >
-                            Logout
-                        </button>
-
-                    </div>
-                </div>
-
-
+                    <TopBar
+                        buttonLabel="Logout"
+                        onButtonClick={handleLogout}
+                    />
                 <div className="flex-1">
                     <div className="max-w-7xl mx-auto w-full px-12 py-16 flex gap-20">
 
@@ -161,7 +135,7 @@ export default function DashboardPage() {
                                     {sets.map(set => (
                                         <button
                                             key={set.id}
-                                            onClick={() => setSelectedSetId(set.id)}
+                                            onClick={() => navigate(`/sets/${set.id}`)}
                                             className={`w-full text-left text-lg px-4 py-3 rounded-xl transition
                                 ${selectedSetId === set.id
                                                 ? "bg-[#8FC3B1] text-slate-900"

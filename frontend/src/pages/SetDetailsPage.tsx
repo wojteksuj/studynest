@@ -1,0 +1,82 @@
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "../api/axios";
+import { useAuth } from "../context/AuthContext";
+import TopBar from "../components/TopBar";
+
+type Flashcard = {
+    id: string;
+    prompt: string;
+    answer: string;
+};
+
+export default function SetDetailsPage() {
+
+    const { setId } = useParams();
+    const navigate = useNavigate();
+    const { username } = useAuth();
+
+    const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
+
+    const fetchFlashcards = async () => {
+        const response = await axios.get(
+            `/flashcard-sets/${setId}/flashcards`
+        );
+
+        setFlashcards(response.data);
+    };
+
+    const handleReturn = () => {
+        navigate("/dashboard");
+    };
+
+    useEffect(() => {
+        fetchFlashcards();
+    }, [setId]);
+
+    return (
+        <div className="min-h-screen relative overflow-hidden">
+
+            {/* Background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#8FC3B1] via-[#E6BC9C] to-[#EE7F87]" />
+    <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-2xl" />
+
+    <div className="relative z-10 min-h-screen flex flex-col">
+
+        {/* Top bar */}
+        <TopBar buttonLabel="Return" onButtonClick={handleReturn} />
+
+    {/* Content */}
+    <div className="flex-1">
+    <div className="max-w-5xl mx-auto w-full px-12 py-16">
+
+    <h2 className="text-xl font-semibold text-white mb-10">
+        Flashcards
+        </h2>
+
+        <div className="space-y-6">
+
+        {flashcards.map(card => (
+                <div
+                    key={card.id}
+            className="grid grid-cols-2 gap-6 bg-slate-800/90 border border-slate-700 rounded-2xl p-6"
+            >
+            <div className="text-slate-200 font-medium">
+                {card.prompt}
+                </div>
+
+                <div className="text-slate-400">
+            {card.answer}
+            </div>
+            </div>
+))}
+
+    </div>
+
+    </div>
+    </div>
+
+    </div>
+    </div>
+);
+}
