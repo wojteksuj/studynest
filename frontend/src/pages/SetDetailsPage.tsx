@@ -99,10 +99,10 @@ export default function SetDetailsPage() {
 
                                 {/* Prawa strona */}
                                 <div className="flex flex-col items-end">
-                                <span
-                                    className="bg-[#8FC3B1] text-slate-900 text-sm font-semibold px-4 py-2 rounded-full shadow-md">
-                                        {flashcards.length} cards
-                                    </span>
+                                        <span
+                                            className="bg-slate-800/70 text-slate-300 text-sm px-4 py-2 rounded-full border border-slate-700">
+                                            {flashcards.length} cards
+                                        </span>
                                 </div>
 
                             </div>
