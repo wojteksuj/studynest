@@ -10,6 +10,12 @@ type Flashcard = {
     answer: string;
 };
 
+type FlashcardSetDetails = {
+    id: string;
+    title: string;
+    description: string;
+};
+
 export default function SetDetailsPage() {
 
     const {setId} = useParams();
@@ -19,12 +25,19 @@ export default function SetDetailsPage() {
 
     const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
 
+    const [setDetails, setSetDetails] = useState<FlashcardSetDetails | null>(null);
+
     const fetchFlashcards = async () => {
         const response = await axios.get(
             `/flashcard-sets/${setId}/flashcards`
         );
 
         setFlashcards(response.data);
+    };
+
+    const fetchSetDetails = async () => {
+        const response = await axios.get(`/flashcard-sets/${setId}`);
+        setSetDetails(response.data);
     };
 
     const handleReturn = () => {
@@ -46,6 +59,9 @@ export default function SetDetailsPage() {
     };
 
     useEffect(() => {
+        if (!setId) return;
+
+        fetchSetDetails();
         fetchFlashcards();
     }, [setId]);
 
@@ -65,6 +81,32 @@ export default function SetDetailsPage() {
                 <div className="flex-1">
                     <div className="max-w-5xl mx-auto w-full px-12 py-16">
 
+                        {setDetails && (
+                            <div className="mb-16 flex items-start justify-between">
+
+                                {/* Lewa strona */}
+                                <div>
+                                    <h1 className="text-4xl font-bold text-white tracking-tight mb-4">
+                                        {setDetails.title}
+                                    </h1>
+
+                                    {setDetails.description && (
+                                        <p className="text-slate-400 text-lg leading-relaxed max-w-2xl">
+                                            {setDetails.description}
+                                        </p>
+                                    )}
+                                </div>
+
+                                {/* Prawa strona */}
+                                <div className="flex flex-col items-end">
+                                <span
+                                    className="bg-[#8FC3B1] text-slate-900 text-sm font-semibold px-4 py-2 rounded-full shadow-md">
+                                        {flashcards.length} cards
+                                    </span>
+                                </div>
+
+                            </div>
+                        )}
                         <h2 className="text-xl font-semibold text-white mb-10">
                             Flashcards
                         </h2>
