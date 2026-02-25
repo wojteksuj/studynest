@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "../api/axios";
-import { useAuth } from "../context/AuthContext";
+import { CircleCheck, CircleDashed } from "lucide-react";
 import TopBar from "../components/TopBar";
 
 type Flashcard = {
@@ -14,7 +14,8 @@ export default function SetDetailsPage() {
 
     const { setId } = useParams();
     const navigate = useNavigate();
-    const { username } = useAuth();
+
+    const [visibleAnswers, setVisibleAnswers] = useState<Set<string>>(new Set());
 
     const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
 
@@ -28,6 +29,20 @@ export default function SetDetailsPage() {
 
     const handleReturn = () => {
         navigate("/dashboard");
+    };
+
+    const toggleAnswer = (id: string) => {
+        setVisibleAnswers(prev => {
+            const newSet = new Set(prev);
+
+            if (newSet.has(id)) {
+                newSet.delete(id);
+            } else {
+                newSet.add(id);
+            }
+
+            return newSet;
+        });
     };
 
     useEffect(() => {
@@ -56,20 +71,38 @@ export default function SetDetailsPage() {
 
         <div className="space-y-6">
 
-        {flashcards.map(card => (
-                <div
-                    key={card.id}
-            className="grid grid-cols-2 gap-6 bg-slate-800/90 border border-slate-700 rounded-2xl p-6"
-            >
-            <div className="text-slate-200 font-medium">
-                {card.prompt}
-                </div>
+            {flashcards.map(card => {
+                const isVisible = visibleAnswers.has(card.id);
 
-                <div className="text-slate-400">
-            {card.answer}
-            </div>
-            </div>
-))}
+                return (
+                    <div
+                        key={card.id}
+                        className="grid grid-cols-2 gap-6 bg-slate-800/90 border border-slate-700 rounded-2xl p-6 items-center"
+                    >
+                        <div className="text-slate-200 font-medium">
+                            {card.prompt}
+                        </div>
+
+                        <div className="flex items-center justify-between ">
+                            <div className="text-slate-400">
+                                {isVisible ? card.answer : "Hidden"}
+                            </div>
+
+                            <button
+                                onClick={() => toggleAnswer(card.id)}
+                                className="ml-4 text-slate-400 hover:text-[#8FC3B1] transition"
+                            >
+                                {isVisible ? (
+                                    <CircleCheck size={20} />
+                                ) : (
+                                    <CircleDashed size={20} />
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                );
+            })}
+
 
     </div>
 
