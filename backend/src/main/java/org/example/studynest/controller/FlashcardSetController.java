@@ -1,5 +1,6 @@
 package org.example.studynest.controller;
 import org.example.studynest.dto.request.CreateFlashcardSetDTO;
+import org.example.studynest.dto.response.FlashcardDTO;
 import org.example.studynest.dto.response.FlashcardSetDTO;
 import org.example.studynest.security.CustomUserDetails;
 import org.example.studynest.service.FlashcardSetService;
@@ -9,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/flashcard-sets")
@@ -31,4 +33,12 @@ public class FlashcardSetController {
                     .status(HttpStatus.CREATED)
                     .body(newFlashcard);
     }
+
+    @GetMapping("/{setId}/flashcards")
+    public ResponseEntity<List<FlashcardDTO>> getFlashcards(
+            @AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable UUID setId){
+        List<FlashcardDTO> flashcardDTOList = flashcardSetService.getFlashcardsBySetId(setId, userDetails.getId());
+        return ResponseEntity.ok(flashcardDTOList);
+    }
+
 }

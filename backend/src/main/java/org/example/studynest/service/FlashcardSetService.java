@@ -1,13 +1,14 @@
 package org.example.studynest.service;
 
 import org.example.studynest.dto.request.CreateFlashcardSetDTO;
+import org.example.studynest.dto.response.FlashcardDTO;
 import org.example.studynest.dto.response.FlashcardSetDTO;
-import org.example.studynest.entity.Flashcard;
 import org.example.studynest.entity.FlashcardSet;
-import org.example.studynest.entity.FlashcardSetTopic;
+import org.example.studynest.exception.FlashcardSetNotFound;
 import org.example.studynest.exception.FlashcardSetNotFoundById;
 import org.example.studynest.exception.FlashcardSetTopicNotFoundById;
 import org.example.studynest.exception.UserNotFoundById;
+import org.example.studynest.repository.FlashcardRepository;
 import org.example.studynest.repository.FlashcardSetRepository;
 import org.example.studynest.repository.FlashcardSetTopicRepository;
 import org.example.studynest.repository.UserRepository;
@@ -21,11 +22,14 @@ public class FlashcardSetService {
     private final FlashcardSetRepository flashcardSetRepository;
     private final UserRepository userRepository;
     private final FlashcardSetTopicRepository flashcardSetTopicRepository;
+    private final FlashcardRepository flashcardRepository;
 
-    public FlashcardSetService(FlashcardSetRepository flashcardSetRepository, UserRepository userRepository, FlashcardSetTopicRepository flashcardSetTopicRepository) {
+    public FlashcardSetService(FlashcardSetRepository flashcardSetRepository, UserRepository userRepository,
+                               FlashcardSetTopicRepository flashcardSetTopicRepository, FlashcardRepository flashcardRepository) {
         this.flashcardSetRepository = flashcardSetRepository;
         this.userRepository = userRepository;
         this.flashcardSetTopicRepository = flashcardSetTopicRepository;
+        this.flashcardRepository = flashcardRepository;
     }
 
     public FlashcardSet getFlashcardSetById(UUID id) {
@@ -47,6 +51,15 @@ public class FlashcardSetService {
         FlashcardSetDTO dto = new FlashcardSetDTO(newFlashcardSet.getId(), newFlashcardSet.getTitle());
         return dto;
     }
+
+    public List<FlashcardDTO> getFlashcardsBySetId(UUID setId, UUID userId){
+        List<FlashcardDTO> flashcardDTOList = flashcardRepository.findFlashcardsBySetId(setId, userId);
+        if(flashcardDTOList.isEmpty()) throw new FlashcardSetNotFound();
+        return flashcardDTOList;
+    }
+
+
+
 
 
 }
