@@ -1,7 +1,8 @@
-package org.example.studynest.controller;
+package org.example.studynest.config;
 
 import org.example.studynest.dto.response.errors.DuplicateFieldErrorResponse;
 import org.example.studynest.exception.DuplicateFieldsException;
+import org.example.studynest.exception.FlashcardSetNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -40,5 +41,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(response);
+    }
+
+    @ExceptionHandler(FlashcardSetNotFound.class)
+    public ResponseEntity<Void> handleNotFound(){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }
