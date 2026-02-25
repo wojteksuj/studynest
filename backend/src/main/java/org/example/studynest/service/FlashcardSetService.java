@@ -15,6 +15,7 @@ import org.example.studynest.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -48,7 +49,7 @@ public class FlashcardSetService {
         newFlashcardSet.setFlashcardSetTopic(flashcardSetTopicRepository.findById(flashcardSetDTO.getTopicId()).orElseThrow(FlashcardSetTopicNotFoundById::new));
         flashcardSetRepository.save(newFlashcardSet);
 
-        FlashcardSetDTO dto = new FlashcardSetDTO(newFlashcardSet.getId(), newFlashcardSet.getTitle());
+        FlashcardSetDTO dto = new FlashcardSetDTO(newFlashcardSet.getId(), newFlashcardSet.getTitle(), newFlashcardSet.getDescription());
         return dto;
     }
 
@@ -56,6 +57,10 @@ public class FlashcardSetService {
         List<FlashcardDTO> flashcardDTOList = flashcardRepository.findFlashcardsBySetId(setId, userId);
         if(flashcardDTOList.isEmpty()) throw new FlashcardSetNotFound();
         return flashcardDTOList;
+    }
+
+    public FlashcardSetDTO getFlashcardSetById(UUID id, UUID userId){
+        return flashcardSetRepository.findFlashcardSetById(id, userId).orElseThrow(FlashcardSetNotFound::new);
     }
 
 

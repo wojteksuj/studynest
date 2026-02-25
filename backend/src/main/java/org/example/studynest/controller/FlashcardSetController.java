@@ -41,4 +41,11 @@ public class FlashcardSetController {
         return ResponseEntity.ok(flashcardDTOList);
     }
 
+    @GetMapping("/{setId}")
+    public ResponseEntity<FlashcardSetDTO> getFlashcardSetById(
+            @AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable UUID setId){
+        return ResponseEntity.ok(flashcardSetService.getFlashcardSetById(setId, userDetails.getId()));
+    }
+
+
 }
