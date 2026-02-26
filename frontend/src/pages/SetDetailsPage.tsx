@@ -27,6 +27,9 @@ export default function SetDetailsPage() {
 
     const [setDetails, setSetDetails] = useState<FlashcardSetDetails | null>(null);
 
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+
     const fetchFlashcards = async () => {
         const response = await axios.get(
             `/flashcard-sets/${setId}/flashcards`
@@ -42,6 +45,21 @@ export default function SetDetailsPage() {
 
     const handleReturn = () => {
         navigate("/dashboard");
+    };
+
+    const handleDeleteSet = async () => {
+        if (!setId) return;
+
+        try {
+            setIsDeleting(true);
+            await axios.delete(`/flashcard-sets/${setId}`);
+            navigate("/dashboard");
+        } catch (error) {
+            console.error("Delete failed", error);
+        } finally {
+            setIsDeleting(false);
+            setShowDeleteModal(false);
+        }
     };
 
     const toggleAnswer = (id: string) => {
@@ -158,10 +176,58 @@ export default function SetDetailsPage() {
                                 );
                             })}
                         </div>
+
+                        <div className="mt-16 flex justify-end">
+                            <button
+                                onClick={() => setShowDeleteModal(true)}
+                                className="bg-slate-700 hover:bg-slate-600 text-slate-200 px-6 py-3 rounded-xl transition border border-slate-600"
+                            >
+                                Delete set
+                            </button>
+                        </div>
+
                     </div>
                 </div>
 
             </div>
+
+            {showDeleteModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    {/* overlay */}
+                    <div
+                        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                        onClick={() => setShowDeleteModal(false)}
+                    />
+
+                    {/* modal */}
+                    <div className="relative bg-slate-900 border border-slate-700 rounded-2xl p-8 w-full max-w-md shadow-2xl">
+                        <h3 className="text-xl font-semibold text-white mb-4">
+                            Delete this set?
+                        </h3>
+
+                        <p className="text-slate-400 mb-8">
+                            This action cannot be undone. All flashcards in this set will be permanently removed.
+                        </p>
+
+                        <div className="flex justify-end space-x-4">
+                            <button
+                                onClick={() => setShowDeleteModal(false)}
+                                className="px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white transition"
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                onClick={handleDeleteSet}
+                                disabled={isDeleting}
+                                className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white transition disabled:opacity-50"
+                            >
+                                {isDeleting ? "Deleting..." : "Delete"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
 
 
