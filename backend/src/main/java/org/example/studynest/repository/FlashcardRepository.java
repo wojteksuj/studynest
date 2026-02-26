@@ -3,6 +3,8 @@ package org.example.studynest.repository;
 import org.example.studynest.dto.response.FlashcardDTO;
 import org.example.studynest.entity.Flashcard;
 import java.util.List;
+
+import org.example.studynest.entity.FlashcardSet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,4 +28,7 @@ public interface FlashcardRepository extends JpaRepository<Flashcard, UUID> {
             ORDER BY fc.orderIndex
             """)
     List<FlashcardDTO> findFlashcardsBySetId(@Param("setId") UUID setId, @Param("userId") UUID userId);
+
+    int countAllByFlashcardSet(FlashcardSet flashcardSet);
+    Integer findMaxOrderIndexByFlashcardSetId(UUID setId);
 }

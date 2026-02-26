@@ -32,6 +32,13 @@ public class Flashcard {
 
     protected Flashcard() {}
 
+    public Flashcard(String prompt, String answer, Integer orderIndex, FlashcardSet flashcardSet) {
+        this.prompt = prompt;
+        this.answer = answer;
+        this.orderIndex = orderIndex;
+        this.flashcardSet = flashcardSet;
+    }
+
     @PrePersist
     protected void onCreate() {
         if(id == null) {

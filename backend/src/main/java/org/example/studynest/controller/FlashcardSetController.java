@@ -1,4 +1,7 @@
 package org.example.studynest.controller;
+
+import jakarta.validation.Valid;
+import org.example.studynest.dto.request.CreateFlashcardDTO;
 import org.example.studynest.dto.request.CreateFlashcardSetDTO;
 import org.example.studynest.dto.response.FlashcardDTO;
 import org.example.studynest.dto.response.FlashcardSetDTO;
@@ -28,24 +31,41 @@ public class FlashcardSetController {
 
     @PostMapping
     public ResponseEntity<FlashcardSetDTO> addFlashcardSet(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody CreateFlashcardSetDTO flashcardSetDTO) {
-            FlashcardSetDTO newFlashcard = flashcardSetService.createFlashcardSet(flashcardSetDTO, userDetails.getId());
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(newFlashcard);
+        FlashcardSetDTO newFlashcard = flashcardSetService.createFlashcardSet(flashcardSetDTO, userDetails.getId());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(newFlashcard);
     }
 
     @GetMapping("/{setId}/flashcards")
     public ResponseEntity<List<FlashcardDTO>> getFlashcards(
-            @AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable UUID setId){
+            @AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable UUID setId) {
         List<FlashcardDTO> flashcardDTOList = flashcardSetService.getFlashcardsBySetId(setId, userDetails.getId());
         return ResponseEntity.ok(flashcardDTOList);
     }
 
     @GetMapping("/{setId}")
     public ResponseEntity<FlashcardSetDTO> getFlashcardSetById(
-            @AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable UUID setId){
+            @AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable UUID setId) {
         return ResponseEntity.ok(flashcardSetService.getFlashcardSetById(setId, userDetails.getId()));
     }
 
+    @DeleteMapping("/{setId}")
+    public ResponseEntity<Void> deleteFlashcardSet(
+            @AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable UUID setId) {
+        flashcardSetService.deleteFlashcardSetById(setId, userDetails.getId());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 
+    @PostMapping("/{setId}/flashcards")
+    public ResponseEntity<FlashcardDTO> createFlashcard(
+            @AuthenticationPrincipal CustomUserDetails userDetails, @Valid @RequestBody CreateFlashcardDTO createFlashcardDTO, @PathVariable UUID setId) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(flashcardSetService.createFlashcard(
+                userDetails.getId(),
+                createFlashcardDTO,
+                setId
+        ));
+
+
+    }
 }

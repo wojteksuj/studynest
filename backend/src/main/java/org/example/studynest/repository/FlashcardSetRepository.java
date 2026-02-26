@@ -1,9 +1,11 @@
 package org.example.studynest.repository;
 
+import jakarta.transaction.Transactional;
 import org.example.studynest.dto.response.FlashcardSetDTO;
 import org.example.studynest.entity.FlashcardSet;
 import org.example.studynest.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -38,5 +40,7 @@ public interface FlashcardSetRepository extends JpaRepository<FlashcardSet, UUID
                                       WHERE fs.id = :id and fs.user.id = :userId
             """)
     Optional<FlashcardSetDTO> findFlashcardSetById(@Param("id") UUID id, @Param("userId") UUID userId);
+
+    Optional<FlashcardSet> findFlashcardSetByIdAndUserId(UUID id, UUID userId);
 }
 
