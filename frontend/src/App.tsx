@@ -4,6 +4,8 @@ import DashboardPage from "./pages/DashboardPage";
 import ProtectedRoute from "./router/ProtectedRoute";
 import RegisterPage from "./features/auth/RegisterPage";
 import SetDetailsPage from "./pages/SetDetailsPage";
+import EditSetPage from "./pages/EditSetPage.tsx";
+
 
 function App() {
     return (
@@ -12,6 +14,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/sets/:setId" element={<SetDetailsPage />} />
+            <Route path="/flashcard-sets/:setId/edit" element={<EditSetPage />} />
             <Route
                 path="/dashboard"
                 element={

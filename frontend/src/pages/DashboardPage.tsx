@@ -83,13 +83,16 @@ export default function DashboardPage() {
             body: JSON.stringify(body)
         });
 
-        if (response.ok) {
-            setIsModalOpen(false);
-            setTitle("");
-            setDescription("");
-            setSelectedTopicId("");
-            fetchSets();
-        }
+        if (!response.ok) return;
+
+        const createdSet = await response.json();
+
+        setIsModalOpen(false);
+        setTitle("");
+        setDescription("");
+        setSelectedTopicId("");
+
+        navigate(`/flashcard-sets/${createdSet.id}/edit`);
     };
 
     return (
