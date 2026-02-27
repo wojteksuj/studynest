@@ -7,4 +7,9 @@ databaseChangeLog:
       file: db/changelog/003-create-flashcard-sets.yaml
   - include:
       file: db/changelog/004-create-flashcards.yaml
+  - include:
+      file: db/changelog/005-add-user-id-column.yaml
+  - include:
+      file: db/changelog/006-add-fk-users-topics.yaml
+
 

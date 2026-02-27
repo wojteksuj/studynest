@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-add-fk-users-topics
+      author: wsujczynski
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: flashcard_set_topics
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_flashcard_set_topics_user
+            onDelete: CASCADE

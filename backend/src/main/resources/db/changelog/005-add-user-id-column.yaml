@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-add-user-id-column
+      author: wsujczynski
+      changes:
+        - addColumn:
+            tableName: flashcard_set_topics
+            columns:
+              - column:
+                  name: user_id
+                  type: UUID
