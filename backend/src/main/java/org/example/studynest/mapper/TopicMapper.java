@@ -13,6 +13,7 @@ public class TopicMapper {
             TopicDTO topicDTO = new TopicDTO();
             topicDTO.setId(flashcardSetTopic.getId());
             topicDTO.setTopic(flashcardSetTopic.getTopic());
+            topicDTO.setUserId(flashcardSetTopic.getUser().getId());
             topicDTOList.add(topicDTO);
         }
         return topicDTOList;

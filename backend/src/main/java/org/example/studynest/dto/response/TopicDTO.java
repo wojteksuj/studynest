@@ -5,6 +5,7 @@ import java.util.UUID;
 public class TopicDTO {
     private UUID id;
     private String topic;
+    private UUID userId;
 
     public UUID getId() {
         return id;
@@ -20,5 +21,13 @@ public class TopicDTO {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 }
