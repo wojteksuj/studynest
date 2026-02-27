@@ -177,13 +177,22 @@ export default function SetDetailsPage() {
                             })}
                         </div>
 
-                        <div className="mt-16 flex justify-end">
+                        <div className="mt-16 flex justify-end gap-4">
+
+                            <button
+                                onClick={() => navigate(`/flashcard-sets/${setId}/edit`)}
+                                className="bg-[#8FC3B1] hover:opacity-90 text-slate-900 px-6 py-3 rounded-xl transition font-semibold"
+                            >
+                                Edit
+                            </button>
+
                             <button
                                 onClick={() => setShowDeleteModal(true)}
                                 className="bg-slate-700 hover:bg-slate-600 text-slate-200 px-6 py-3 rounded-xl transition border border-slate-600"
                             >
                                 Delete set
                             </button>
+
                         </div>
 
                     </div>
