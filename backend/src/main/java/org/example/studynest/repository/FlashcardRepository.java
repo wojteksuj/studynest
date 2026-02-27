@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -30,5 +31,5 @@ public interface FlashcardRepository extends JpaRepository<Flashcard, UUID> {
     List<FlashcardDTO> findFlashcardsBySetId(@Param("setId") UUID setId, @Param("userId") UUID userId);
 
     int countAllByFlashcardSet(FlashcardSet flashcardSet);
-    Integer findMaxOrderIndexByFlashcardSetId(UUID setId);
+    Optional<Flashcard> findByIdAndFlashcardSetUserId(UUID flashcardId, UUID userId);
 }
