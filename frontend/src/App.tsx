@@ -13,7 +13,7 @@ function App() {
             <Route path="/" element={<LoginPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/sets/:setId" element={<SetDetailsPage />} />
+            <Route path="/flashcard-sets/:setId" element={<SetDetailsPage />} />
             <Route path="/flashcard-sets/:setId/edit" element={<EditSetPage />} />
             <Route
                 path="/dashboard"

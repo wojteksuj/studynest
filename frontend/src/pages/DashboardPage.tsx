@@ -138,7 +138,7 @@ export default function DashboardPage() {
                                     {sets.map(set => (
                                         <button
                                             key={set.id}
-                                            onClick={() => navigate(`/sets/${set.id}`)}
+                                            onClick={() => navigate(`/flashcard-sets/${set.id}`)}
                                             className={`w-full text-left text-lg px-4 py-3 rounded-xl transition
                                 ${selectedSetId === set.id
                                                 ? "bg-[#8FC3B1] text-slate-900"

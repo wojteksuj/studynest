@@ -206,14 +206,23 @@ export default function EditSetPage() {
 
                             </div>
 
-                            {/* BUTTON */}
-                            <div className="flex justify-center pt-6">
+                            {/* ACTION BUTTONS */}
+                            <div className="flex justify-center gap-6 pt-10">
+
                                 <button
                                     onClick={handleAddFlashcard}
                                     className="bg-[#8FC3B1] text-slate-900 px-8 py-3 rounded-xl font-semibold hover:opacity-90 transition"
                                 >
                                     Add flashcard
                                 </button>
+
+                                <button
+                                    onClick={() => navigate(`/flashcard-sets/${setId}`)}
+                                    className="bg-slate-700 hover:bg-slate-600 text-white px-8 py-3 rounded-xl transition border border-slate-600"
+                                >
+                                    Save
+                                </button>
+
                             </div>
 
                         </div>
