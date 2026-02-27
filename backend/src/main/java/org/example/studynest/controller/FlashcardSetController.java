@@ -3,6 +3,7 @@ package org.example.studynest.controller;
 import jakarta.validation.Valid;
 import org.example.studynest.dto.request.CreateFlashcardDTO;
 import org.example.studynest.dto.request.CreateFlashcardSetDTO;
+import org.example.studynest.dto.request.UpdateFlashcardDTO;
 import org.example.studynest.dto.response.FlashcardDTO;
 import org.example.studynest.dto.response.FlashcardSetDTO;
 import org.example.studynest.security.CustomUserDetails;
@@ -65,7 +66,5 @@ public class FlashcardSetController {
                 createFlashcardDTO,
                 setId
         ));
-
-
     }
 }
