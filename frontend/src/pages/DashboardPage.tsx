@@ -255,17 +255,17 @@ export default function DashboardPage() {
 
                         <div className="flex justify-end gap-4">
                             <button
-                                onClick={() => setIsModalOpen(false)}
-                                className="px-4 py-2 bg-slate-600 text-white rounded-lg"
-                            >
-                                Cancel
-                            </button>
-
-                            <button
                                 onClick={handleCreateSet}
                                 className="px-4 py-2 bg-[#8FC3B1] text-slate-900 rounded-lg"
                             >
                                 Create
+                            </button>
+
+                            <button
+                                onClick={() => setIsModalOpen(false)}
+                                className="px-4 py-2 bg-slate-600 text-white rounded-lg"
+                            >
+                                Return
                             </button>
                         </div>
 
