@@ -21,10 +21,12 @@ public interface FlashcardSetRepository extends JpaRepository<FlashcardSet, UUID
             SELECT new org.example.studynest.dto.response.FlashcardSetDTO(
                                           fs.id,
                                           fs.title,
-                                          fs.description
+                                          fs.description,
+                                          ft.topic
                                       )
                                       FROM FlashcardSet fs
                                       JOIN fs.user u
+                                      JOIN fs.flashcardSetTopic ft
                                       WHERE u.id = :id
             """)
     List<FlashcardSetDTO> findAllById(@Param("id") UUID id);

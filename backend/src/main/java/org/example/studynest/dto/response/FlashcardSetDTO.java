@@ -6,11 +6,19 @@ public class FlashcardSetDTO {
     private UUID id;
     private String title;
     private String description;
+    private String topic;
 
     public FlashcardSetDTO(UUID id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
+    }
+
+    public FlashcardSetDTO(UUID id, String title, String description, String topic) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.topic = topic;
     }
 
     public UUID getId() {
@@ -35,5 +43,13 @@ public class FlashcardSetDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 }
