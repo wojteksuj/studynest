@@ -33,6 +33,9 @@ export default function DashboardPage() {
     const [description, setDescription] = useState("");
     const [selectedTopicId, setSelectedTopicId] = useState("");
 
+    const [isTopicModalOpen, setIsTopicModalOpen] = useState(false);
+    const [newTopicName, setNewTopicName] = useState("");
+
     const fetchSets = async () => {
         try {
             const response = await axios.get("/flashcard-sets");
@@ -62,6 +65,10 @@ export default function DashboardPage() {
 
     const openModal = () => {
         setIsModalOpen(true);
+    };
+
+    const openTopicModal = () => {
+        setIsTopicModalOpen(true);
     };
 
     const handleCreateSet = async () => {
@@ -94,6 +101,23 @@ export default function DashboardPage() {
         navigate(`/flashcard-sets/${createdSet.id}/edit`);
     };
 
+    const handleCreateTopic = async () => {
+        if (!newTopicName.trim()) return;
+
+        try {
+            const response = await axios.post("/topics", {
+                topic: newTopicName
+            });
+
+            setTopics(prev => [...prev, response.data]);
+
+            setNewTopicName("");
+            setIsTopicModalOpen(false);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <div className="min-h-screen relative overflow-hidden">
 
@@ -102,10 +126,10 @@ export default function DashboardPage() {
 
             <div className="relative z-10 min-h-screen flex flex-col">
 
-                    <TopBar
-                        buttonLabel="Logout"
-                        onButtonClick={handleLogout}
-                    />
+                <TopBar
+                    buttonLabel="Logout"
+                    onButtonClick={handleLogout}
+                />
                 <div className="flex-1">
                     <div className="max-w-7xl mx-auto w-full px-12 py-16 flex gap-20">
 
@@ -118,11 +142,13 @@ export default function DashboardPage() {
                             </button>
 
                             <button
+                                onClick={openTopicModal}
                                 className="bg-slate-700 hover:bg-slate-600 text-slate-200 font-semibold px-6 py-3 rounded-xl transition shadow-md">
                                 Add new topic
                             </button>
 
-                            <div className="bg-slate-800/90 border border-slate-700 rounded-2xl p-4 space-y-3 max-h-80 overflow-y-auto">
+                            <div
+                                className="bg-slate-800/90 border border-slate-700 rounded-2xl p-4 space-y-3 max-h-80 overflow-y-auto">
 
                                 <h3 className="text-white font-semibold">
                                     Topics:
@@ -230,6 +256,46 @@ export default function DashboardPage() {
                                 className="px-4 py-2 bg-[#8FC3B1] text-slate-900 rounded-lg"
                             >
                                 Create
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            )}
+
+            {isTopicModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
+                    <div className="bg-slate-800 p-8 rounded-2xl w-full max-w-md space-y-6">
+
+                        <h3 className="text-white text-lg font-semibold">
+                            Create new topic
+                        </h3>
+
+                        <p className="text-slate-400 text-sm">
+                            Enter a name for your new topic.
+                        </p>
+
+                        <input
+                            type="text"
+                            placeholder="Topic name"
+                            value={newTopicName}
+                            onChange={e => setNewTopicName(e.target.value)}
+                            className="w-full px-4 py-2 rounded-lg bg-slate-700 text-white"
+                        />
+
+                        <div className="flex justify-end gap-4">
+                            <button
+                                onClick={handleCreateTopic}
+                                className="px-4 py-2 bg-[#8FC3B1] text-slate-900 rounded-lg"
+                            >
+                                Add
+                            </button>
+
+                            <button
+                                onClick={() => setIsTopicModalOpen(false)}
+                                className="px-4 py-2 bg-slate-600 text-white rounded-lg"
+                            >
+                                Return
                             </button>
                         </div>
 
