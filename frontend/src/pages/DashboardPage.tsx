@@ -6,6 +6,7 @@ import TopBar from "../components/TopBar";
 type FlashcardSet = {
     id: string;
     title: string;
+    topic: string;
 };
 
 type Topic = {
@@ -181,20 +182,29 @@ export default function DashboardPage() {
                             </h2>
 
                             <div
-                                className="w-full max-w-2xl bg-slate-800/90 border border-slate-700 rounded-3xl shadow-2xl p-10">
+                                className="w-full max-w-4xl bg-slate-800/90 border border-slate-700 rounded-3xl shadow-2xl p-12">
 
                                 <div className="space-y-6">
                                     {sets.map(set => (
                                         <button
                                             key={set.id}
                                             onClick={() => navigate(`/flashcard-sets/${set.id}`)}
-                                            className={`w-full text-left text-lg px-4 py-3 rounded-xl transition
-                                ${selectedSetId === set.id
+                                            className={`w-full flex items-center justify-between px-6 py-5 rounded-2xl transition
+        ${selectedSetId === set.id
                                                 ? "bg-[#8FC3B1] text-slate-900"
-                                                : "text-slate-200 hover:bg-slate-700"
+                                                : "bg-slate-700/40 text-slate-200 hover:bg-slate-700"
                                             }`}
                                         >
-                                            {set.title}
+
+
+                                            <span className="text-xl font-semibold">
+        {set.title}
+    </span>
+
+                                            <span className="text-sm text-slate-400 font-medium">
+        {set.topic}
+    </span>
+
                                         </button>
                                     ))}
                                 </div>
