@@ -24,6 +24,11 @@ public class FlashcardSetTopic {
 
     protected FlashcardSetTopic() {}
 
+    public FlashcardSetTopic(String topic, User user){
+        this.topic = topic;
+        this.user = user;
+    }
+
     @PrePersist
     protected void onCreate() {
         if(id == null) {

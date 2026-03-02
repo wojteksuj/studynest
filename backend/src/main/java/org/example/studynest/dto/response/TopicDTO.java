@@ -7,6 +7,8 @@ public class TopicDTO {
     private String topic;
     private UUID userId;
 
+
+
     public UUID getId() {
         return id;
     }
