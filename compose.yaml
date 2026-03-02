@@ -15,7 +15,9 @@ services:
       - studynest_net
 
   backend:
-    build: .
+    build:
+      context: ./backend
+    container_name: studynest-backend
     restart: unless-stopped
     depends_on:
       - postgres
@@ -26,6 +28,18 @@ services:
       SPRING_DATASOURCE_USERNAME: studynest_user
       SPRING_DATASOURCE_PASSWORD: mypassword
       SPRING_JPA_HIBERNATE_DDL_AUTO: none
+    networks:
+      - studynest_net
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: studynest-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
     networks:
       - studynest_net
 
