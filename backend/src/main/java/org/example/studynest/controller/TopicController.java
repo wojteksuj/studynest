@@ -1,7 +1,9 @@
 package org.example.studynest.controller;
 
 import org.example.studynest.dto.response.TopicDTO;
+import org.example.studynest.security.CustomUserDetails;
 import org.example.studynest.service.TopicService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +20,7 @@ public class TopicController {
     }
 
     @GetMapping
-    public List<TopicDTO> getTopics() {
-        return topicService.getAllTopics();
+    public List<TopicDTO> getTopicsByUser(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return topicService.getAllTopicsByUser(userDetails.getId());
     }
 }
