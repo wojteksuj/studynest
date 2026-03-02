@@ -129,54 +129,66 @@ export default function SetDetailsPage() {
                             Flashcards
                         </h2>
 
-                        <div className="space-y-6">
-                            {flashcards.map((card) => {
-                                const isVisible = visibleAnswers.has(card.id);
+                        {flashcards.length === 0 ? (
+                            <div className="flex items-center justify-center py-24">
+                                <div className="text-center">
+                                    <h3 className="text-2xl font-semibold text-white mb-3">
+                                        This set is empty
+                                    </h3>
+                                    <p className="text-slate-400">
+                                        Add your first flashcard to get started.
+                                    </p>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="space-y-6">
+                                {flashcards.map((card) => {
+                                    const isVisible = visibleAnswers.has(card.id);
 
-                                return (
-                                    <div
-                                        key={card.id}
-                                        className="grid grid-cols-2 bg-slate-800/90 border border-slate-700 rounded-2xl overflow-hidden shadow-lg"
-                                    >
-                                        {/* PROMPT */}
-                                        <div className="p-6 border-r border-slate-700 bg-slate-800">
-                                            <div className="text-slate-100 font-medium leading-relaxed">
-                                                {card.prompt}
-                                            </div>
-                                        </div>
-
-                                        {/* ANSWER */}
-                                        <div className="p-6 bg-slate-900/60">
-                                            <div className="flex items-start">
-                                                <div className="flex-1">
-                                                    <div
-                                                        className={`text-slate-300 leading-relaxed transition-all duration-300 ${
-                                                            isVisible
-                                                                ? "opacity-100"
-                                                                : "opacity-40 blur-[2px]"
-                                                        }`}
-                                                    >
-                                                        {isVisible ? card.answer : "Hidden"}
-                                                    </div>
+                                    return (
+                                        <div
+                                            key={card.id}
+                                            className="grid grid-cols-2 bg-slate-800/90 border border-slate-700 rounded-2xl overflow-hidden shadow-lg"
+                                        >
+                                            {/* PROMPT */}
+                                            <div className="p-6 border-r border-slate-700 bg-slate-800">
+                                                <div className="text-slate-100 font-medium leading-relaxed">
+                                                    {card.prompt}
                                                 </div>
+                                            </div>
 
-                                                <button
-                                                    onClick={() => toggleAnswer(card.id)}
-                                                    className="ml-6 text-slate-400 hover:text-[#8FC3B1] transition"
-                                                >
-                                                    {isVisible ? (
-                                                        <CircleCheck size={22}/>
-                                                    ) : (
-                                                        <CircleDashed size={22}/>
-                                                    )}
-                                                </button>
+                                            {/* ANSWER */}
+                                            <div className="p-6 bg-slate-900/60">
+                                                <div className="flex items-start">
+                                                    <div className="flex-1">
+                                                        <div
+                                                            className={`text-slate-300 leading-relaxed transition-all duration-300 ${
+                                                                isVisible
+                                                                    ? "opacity-100"
+                                                                    : "opacity-40 blur-[2px]"
+                                                            }`}
+                                                        >
+                                                            {isVisible ? card.answer : "Hidden"}
+                                                        </div>
+                                                    </div>
+
+                                                    <button
+                                                        onClick={() => toggleAnswer(card.id)}
+                                                        className="ml-6 text-slate-400 hover:text-[#8FC3B1] transition"
+                                                    >
+                                                        {isVisible ? (
+                                                            <CircleCheck size={22}/>
+                                                        ) : (
+                                                            <CircleDashed size={22}/>
+                                                        )}
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-
+                                    );
+                                })}
+                            </div>
+                        )}
                         <div className="mt-16 flex justify-end gap-4">
 
                             <button
