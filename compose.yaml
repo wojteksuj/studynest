@@ -4,9 +4,9 @@ services:
     container_name: studynest-db
     restart: always
     environment:
-      POSTGRES_USER: studynest_user
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: studynest
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -24,12 +24,11 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/studynest
-      SPRING_DATASOURCE_USERNAME: studynest_user
-      SPRING_DATASOURCE_PASSWORD: mypassword
-      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      SPRING_PROFILES_ACTIVE: docker
     networks:
       - studynest_net
+
+
 
   frontend:
     build:
