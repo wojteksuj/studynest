@@ -42,27 +42,26 @@ export default function DashboardPage() {
         }
     };
 
+    const fetchTopics = async () => {
+        try {
+            const response = await axios.get("/topics");
+            setTopics(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
         fetchSets();
+        fetchTopics();
     }, []);
 
     const handleLogout = () => {
         navigate("/");
     };
 
-    const openModal = async () => {
+    const openModal = () => {
         setIsModalOpen(true);
-
-        const token = localStorage.getItem("accessToken");
-
-        const response = await fetch("http://localhost:8080/api/topics", {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-
-        const data = await response.json();
-        setTopics(data);
     };
 
     const handleCreateSet = async () => {
@@ -122,6 +121,30 @@ export default function DashboardPage() {
                                 className="bg-slate-700 hover:bg-slate-600 text-slate-200 font-semibold px-6 py-3 rounded-xl transition shadow-md">
                                 Add new topic
                             </button>
+
+                            <div className="bg-slate-800/90 border border-slate-700 rounded-2xl p-4 space-y-3 max-h-80 overflow-y-auto">
+
+                                <h3 className="text-white font-semibold">
+                                    Topics:
+                                </h3>
+
+                                {topics.length === 0 ? (
+                                    <div className="text-slate-400 text-sm italic">
+                                        You don’t have any topics yet...
+                                        Add the first one!
+                                    </div>
+                                ) : (
+                                    topics.map(topic => (
+                                        <div
+                                            key={topic.id}
+                                            className="px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-700 transition cursor-pointer"
+                                        >
+                                            {topic.topic}
+                                        </div>
+                                    ))
+                                )}
+
+                            </div>
 
                         </div>
 
