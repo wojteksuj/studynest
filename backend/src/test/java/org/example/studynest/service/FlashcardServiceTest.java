@@ -1,0 +1,41 @@
+package org.example.studynest.service;
+
+import org.example.studynest.dto.request.UpdateFlashcardDTO;
+import org.example.studynest.dto.response.FlashcardDTO;
+import org.example.studynest.entity.Flashcard;
+import org.example.studynest.entity.FlashcardSet;
+import org.example.studynest.repository.FlashcardRepository;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+public class FlashcardServiceTest {
+    @Mock
+    private FlashcardRepository flashcardRepository;
+    @InjectMocks
+    private FlashcardService flashcardService;
+
+    @Test
+    void shouldUpdateFlashcard() {
+        UUID flashcardId = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
+
+        Flashcard flashcard = new Flashcard("Old prompt", "Old answer", 1, new FlashcardSet());
+        UpdateFlashcardDTO updateDto = new UpdateFlashcardDTO("New prompt", "New answer");
+
+        when(flashcardRepository.findByIdAndFlashcardSetUserId(flashcardId, userId))
+                .thenReturn(Optional.of(flashcard));
+
+        FlashcardDTO updated = flashcardService.updateFlashcard(flashcardId, userId, updateDto);
+        assertEquals("New prompt", updated.prompt());
+        assertEquals("New answer", updated.answer());
+    }
+}
