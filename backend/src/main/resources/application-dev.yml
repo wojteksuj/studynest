@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/studynest
+    username: studynest_user
+    password: mypassword
