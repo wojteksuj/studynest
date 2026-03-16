@@ -6,6 +6,7 @@ import org.example.studynest.entity.FlashcardSet;
 import org.example.studynest.entity.FlashcardSetTopic;
 import org.example.studynest.entity.User;
 import org.example.studynest.exception.FlashcardSetNotFoundById;
+import org.example.studynest.exception.FlashcardSetTopicNotFoundById;
 import org.example.studynest.exception.UserNotFoundById;
 import org.example.studynest.repository.FlashcardRepository;
 import org.example.studynest.repository.FlashcardSetRepository;
@@ -94,7 +95,7 @@ public class FlashcardSetServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         when(flashcardSetTopicRepository.findById(topicId)).thenReturn(Optional.empty());
 
-        assertThrows(FlashcardSetNotFoundById.class, () -> flashcardSetService.createFlashcardSet(newDto, userId));
+        assertThrows(FlashcardSetTopicNotFoundById.class, () -> flashcardSetService.createFlashcardSet(newDto, userId));
     }
 
 
