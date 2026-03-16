@@ -5,6 +5,7 @@ import org.example.studynest.dto.response.FlashcardSetDTO;
 import org.example.studynest.entity.FlashcardSet;
 import org.example.studynest.entity.FlashcardSetTopic;
 import org.example.studynest.entity.User;
+import org.example.studynest.exception.UserNotFoundById;
 import org.example.studynest.repository.FlashcardRepository;
 import org.example.studynest.repository.FlashcardSetRepository;
 import org.example.studynest.repository.FlashcardSetTopicRepository;
@@ -59,6 +60,21 @@ public class FlashcardSetServiceTest {
 
         assertEquals("New set", newSet.getTitle());
         assertEquals("New description", newSet.getDescription());
+    }
+
+    @Test
+    void shouldThrowUserNotFoundById(){
+        UUID userId = UUID.randomUUID();
+        UUID topicId = UUID.randomUUID();
+
+        CreateFlashcardSetDTO newDto = new CreateFlashcardSetDTO();
+        newDto.setTitle("New set");
+        newDto.setDescription("New description");
+        newDto.setTopicId(topicId);
+
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundById.class, () -> flashcardSetService.createFlashcardSet(newDto, userId));
     }
 
 
