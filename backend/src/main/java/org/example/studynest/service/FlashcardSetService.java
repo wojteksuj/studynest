@@ -54,7 +54,7 @@ public class FlashcardSetService {
         newFlashcardSet.setFlashcardSetTopic(flashcardSetTopicRepository.findById(flashcardSetDTO.getTopicId()).orElseThrow(FlashcardSetTopicNotFoundById::new));
         flashcardSetRepository.save(newFlashcardSet);
 
-        FlashcardSetDTO dto = new FlashcardSetDTO(newFlashcardSet.getId(), newFlashcardSet.getTitle(), newFlashcardSet.getDescription());
+        FlashcardSetDTO dto = new FlashcardSetDTO(newFlashcardSet.getId(), newFlashcardSet.getTitle(), newFlashcardSet.getDescription(), newFlashcardSet.getFlashcardSetTopic().getTopic());
         return dto;
     }
 
