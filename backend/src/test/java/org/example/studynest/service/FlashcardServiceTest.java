@@ -26,7 +26,7 @@ public class FlashcardServiceTest {
     private FlashcardService flashcardService;
 
     @Test
-    void shouldUpdateFlashcard() {
+    void testUpdateFlashcard() {
         UUID flashcardId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
 
@@ -42,7 +42,7 @@ public class FlashcardServiceTest {
     }
 
     @Test
-    void shouldUpdateFlashcardOnlyPrompt() {
+    void testUpdateFlashcardOnlyPrompt() {
         UUID flashcardId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
 
@@ -58,7 +58,7 @@ public class FlashcardServiceTest {
     }
 
     @Test
-    void shouldUpdateFlashcardOnlyAnswer() {
+    void testUpdateFlashcardOnlyAnswer() {
         UUID flashcardId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
 
@@ -74,7 +74,7 @@ public class FlashcardServiceTest {
     }
 
     @Test
-    void shouldThrowFlashcardNotFound() {
+    void testThrowFlashcardNotFound() {
         UUID flashcardId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
 
