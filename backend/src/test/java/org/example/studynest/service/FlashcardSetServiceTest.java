@@ -42,7 +42,7 @@ public class FlashcardSetServiceTest {
     private FlashcardSetService flashcardSetService;
 
     @Test
-    void shouldCreateFlashcardSet(){
+    void testCreateFlashcardSet(){
         UUID userId = UUID.randomUUID();
         UUID topicId = UUID.randomUUID();
 
@@ -66,7 +66,7 @@ public class FlashcardSetServiceTest {
     }
 
     @Test
-    void shouldThrowUserNotFoundById(){
+    void testThrowUserNotFoundById(){
         UUID userId = UUID.randomUUID();
         UUID topicId = UUID.randomUUID();
 
@@ -81,7 +81,7 @@ public class FlashcardSetServiceTest {
     }
 
     @Test
-    void shouldThrowFlashcardSetTopicNotFoundById(){
+    void testThrowFlashcardSetTopicNotFoundById(){
         UUID userId = UUID.randomUUID();
         UUID topicId = UUID.randomUUID();
 
