@@ -15,7 +15,6 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_PROFILES_ACTIVE: docker
       POSTGRES_USER: studynest_user
       POSTGRES_PASSWORD: studynest_pass
 
