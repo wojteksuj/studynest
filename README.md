@@ -11,7 +11,8 @@ All wired together through a single Spring Boot backend, a React SPA, and an ngi
 
 ## How it works
 
-<img width="611" height="484" alt="sn-diagram" src="https://github.com/user-attachments/assets/31f4da63-ad20-438b-948d-f942b55ae83b" />
+<img width="1015" height="844" alt="sn-diagram" src="https://github.com/user-attachments/assets/4946094e-d02c-42ee-a790-c30d39177c93" />
+<br>
 
 **nginx** serves the compiled React SPA for all `/*` routes and transparently proxies `/api/*` requests to the Spring Boot backend — exposing only a single port to the browser.
 
