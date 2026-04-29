@@ -11,24 +11,7 @@ All wired together through a single Spring Boot backend, a React SPA, and an ngi
 
 ## How it works
 
-```
-Browser
-   │ HTTP
-   ▼
-┌─────────────────────┐
-│       nginx         │  :5173  - serves React SPA and proxies API requests
-└─────────────────────┘
-        │ /api/*
-        ▼
-┌─────────────────────┐
-│   Spring Boot API   │  :8080  - handles auth, flashcards, topics, users
-└─────────────────────┘
-        │ JPA / Hibernate
-        ▼
-┌─────────────────────┐
-│     PostgreSQL      │         - persists users, topics, sets, flashcards
-└─────────────────────┘
-```
+<img width="611" height="484" alt="sn-diagram" src="https://github.com/user-attachments/assets/31f4da63-ad20-438b-948d-f942b55ae83b" />
 
 **nginx** serves the compiled React SPA for all `/*` routes and transparently proxies `/api/*` requests to the Spring Boot backend — exposing only a single port to the browser.
 
