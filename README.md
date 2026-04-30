@@ -37,6 +37,7 @@ All wired together through a single Spring Boot backend, a React SPA, and an ngi
 | Styling | Tailwind CSS |
 | Routing | React Router |
 | Infrastructure | Docker, Docker Compose, nginx |
+| Tests | JUnit, Mockito |
 
 
 ## API Reference
